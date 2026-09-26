@@ -14,11 +14,14 @@ The environment includes:
 - Two private subnets
 - Internet Gateway
 - Custom route table
-- Amazon Linux 2023 EC2 instance
-- Nginx web server
-- Security group rules for HTTP and SSH
-- SSH key authentication
-- Custom website deployed to EC2
+- Public Amazon Linux 2023 EC2 web server
+- Private Amazon Linux 2023 EC2 application server
+- Nginx reverse proxy
+- Security group-to-security group access controls
+- SSH administration using ProxyJump
+- Private application running on TCP port `8080`
+- `systemd` service management for application persistence
+- Custom website deployed through Nginx
 
 ## Network Architecture
 
@@ -33,16 +36,24 @@ flowchart TB
     subgraph VPC["VPC — 10.0.0.0/16"]
 
         subgraph AZA["Availability Zone — us-east-1a"]
-            PublicA["Public Subnet A<br/>10.0.1.0/24"]
-            PrivateA["Private Subnet A<br/>10.0.11.0/24"]
-            EC2["EC2 Web Server<br/>Amazon Linux 2023<br/>Nginx"]
 
-            PublicA --> EC2
+            PublicA["Public Subnet A<br/>10.0.1.0/24"]
+            WebEC2["Public EC2<br/>Nginx Reverse Proxy<br/>HTTP :80"]
+
+            PrivateA["Private Subnet A<br/>10.0.11.0/24"]
+            PrivateApp["Private EC2<br/>Application Server<br/>Python :8080 + systemd"]
+
+            PublicA --> WebEC2
+            WebEC2 -->|Proxy /app/ :8080| PrivateApp
+            PrivateA --> PrivateApp
+
         end
 
         subgraph AZB["Availability Zone — us-east-1b"]
+
             PublicB["Public Subnet B<br/>10.0.2.0/24"]
             PrivateB["Private Subnet B<br/>10.0.12.0/24"]
+
         end
 
     end
@@ -62,16 +73,29 @@ flowchart TB
 
 ## Traffic Flow
 
-Internet → Internet Gateway → Public Route Table → Public Subnet → EC2 → Nginx
+Public website traffic:
+
+Internet → Internet Gateway → Public Route Table → Public Subnet → Public EC2 → Nginx
+
+Private application traffic:
+
+Internet → Public EC2 / Nginx → `/app/` → Private EC2 → Application on TCP `8080`
+
+The private application server has no public IPv4 address. External users reach the application through the public Nginx reverse proxy rather than connecting directly to the private EC2 instance.
 
 ## Security
 
-The web server uses a security group that allows:
+The infrastructure uses multiple layers of access control:
 
-- HTTP (TCP 80) for web traffic
-- SSH (TCP 22) restricted for administrative access
-
-Private subnets do not have a direct route to the Internet Gateway.
+- The public EC2 security group allows HTTP (`TCP 80`) for web traffic.
+- SSH (`TCP 22`) to the public EC2 instance is restricted for administrative access.
+- The private EC2 instance has no public IPv4 address.
+- SSH access to the private EC2 instance is allowed only from the public EC2 security group.
+- Application traffic (`TCP 8080`) to the private EC2 instance is allowed only from the public EC2 security group.
+- External users cannot connect directly to the private application server.
+- Nginx acts as a reverse proxy between public users and the private application.
+- SSH ProxyJump is used to administer the private server without placing a private key on the public EC2 instance.
+- The private subnet has no direct route to the Internet Gateway.
 
 ## Deployment Workflow
 
@@ -100,29 +124,22 @@ Testing TCP port 80 from the local computer confirmed that the AWS network path 
 
 ## What I Learned
 
-This project helped me understand how AWS networking components work together rather than treating EC2 as an isolated virtual machine.
+This project helped me understand how AWS infrastructure components work together to build a multi-tier cloud environment.
 
 I gained hands-on experience with:
 
-- VPC networking
-- CIDR addressing
-- Subnetting
-- Availability Zones
-- Route tables
-- Internet Gateways
-- Security groups
+- VPC networking and CIDR addressing
+- Public and private subnet design
+- Multi-Availability Zone network architecture
+- Route tables and Internet Gateways
+- Security groups and security group references
 - Network ACLs
-- EC2
+- Amazon EC2
 - Linux administration
-- SSH
-- Nginx
-- Git and GitHub
-- Basic application deployment
-
-## Next Steps
-
-- Create an AWS architecture diagram
-- Improve deployment automation
-- Add monitoring
-- Explore private subnet workloads
-- Rebuild the infrastructure using Terraform
+- SSH and ProxyJump
+- Nginx web serving and reverse proxying
+- Public-to-private application traffic
+- Python application hosting
+- systemd service management
+- Troubleshooting with `curl` and TCP connectivity tests
+- Git and GitHub documentation

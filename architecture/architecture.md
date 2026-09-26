@@ -15,11 +15,14 @@ flowchart TB
         subgraph AZA["Availability Zone — us-east-1a"]
 
             PublicA["Public Subnet A<br/>10.0.1.0/24"]
+            WebEC2["Public EC2<br/>Amazon Linux 2023<br/>Nginx Reverse Proxy"]
+
             PrivateA["Private Subnet A<br/>10.0.11.0/24"]
+            PrivateApp["Private EC2<br/>Application Server<br/>Python :8080 + systemd"]
 
-            EC2["EC2 Web Server<br/>Amazon Linux 2023<br/>Nginx"]
-
-            PublicA --> EC2
+            PublicA --> WebEC2
+            WebEC2 -->|HTTP :8080| PrivateApp
+            PrivateA --> PrivateApp
 
         end
 
@@ -40,7 +43,11 @@ flowchart TB
 
 - The VPC uses the `10.0.0.0/16` CIDR range.
 - Public and private subnets span two Availability Zones.
-- Public subnets use a route to the Internet Gateway.
-- The EC2 web server currently runs in Public Subnet A.
-- Nginx serves the Cloud Infrastructure Lab website.
-- Private subnets do not currently have direct internet access.
+- Public subnets route internet traffic through an Internet Gateway.
+- A public Amazon Linux EC2 instance runs Nginx as a reverse proxy.
+- Nginx receives HTTP requests on port 80 and forwards `/app/` traffic to the private application server.
+- The private Amazon Linux EC2 instance runs inside `private-subnet-a` with no public IPv4 address.
+- The private application runs on TCP port `8080`.
+- The private application's security group only allows port `8080` traffic from the public web server's security group.
+- The application is managed by `systemd` so it starts automatically at boot and restarts if the process fails.
+- The private subnet does not have direct internet access.
