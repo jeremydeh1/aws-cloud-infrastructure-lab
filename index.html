@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Jeremy Dehorty | AWS Cloud Infrastructure Lab</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">JD<span>.</span></a>
+
+            <div class="nav-links">
+                <a href="#architecture">Architecture</a>
+                <a href="#infrastructure">Infrastructure</a>
+                <a href="#security">Security</a>
+                <a href="#lessons">What I Learned</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+
+        <div class="hero-content">
+
+            <p class="eyebrow">AWS CLOUD INFRASTRUCTURE LAB</p>
+
+            <h1>
+                FROM AN EMPTY VPC<br>
+                TO A <span>LIVE SERVER.</span>
+            </h1>
+
+            <p class="hero-description">
+                A hands-on AWS infrastructure project built to understand
+                networking, Linux, security, routing, and cloud deployment
+                from the ground up.
+            </p>
+
+            <div class="status">
+                <span class="status-dot"></span>
+                EC2 WEB SERVER ONLINE
+            </div>
+
+        </div>
+
+    </header>
+
+    <main>
+
+        <section id="architecture">
+
+            <p class="section-label">01 / ARCHITECTURE</p>
+            <h2>How traffic reaches the server.</h2>
+
+            <div class="traffic-flow">
+                <div>Internet</div>
+                <span>→</span>
+                <div>Internet Gateway</div>
+                <span>→</span>
+                <div>Route Table</div>
+                <span>→</span>
+                <div>Public Subnet</div>
+                <span>→</span>
+                <div>EC2 + Nginx</div>
+            </div>
+
+        </section>
+
+
+        <section id="infrastructure">
+
+            <p class="section-label">02 / INFRASTRUCTURE</p>
+            <h2>What I built.</h2>
+
+            <div class="card-grid">
+
+                <article class="card">
+                    <p class="card-number">01</p>
+                    <h3>Custom VPC</h3>
+                    <p>
+                        Created an isolated AWS network using the
+                        10.0.0.0/16 address space.
+                    </p>
+                </article>
+
+                <article class="card">
+                    <p class="card-number">02</p>
+                    <h3>Subnet Architecture</h3>
+                    <p>
+                        Built public and private subnets across multiple
+                        Availability Zones.
+                    </p>
+                </article>
+
+                <article class="card">
+                    <p class="card-number">03</p>
+                    <h3>Internet Routing</h3>
+                    <p>
+                        Connected an Internet Gateway and configured a
+                        route table for public internet access.
+                    </p>
+                </article>
+
+                <article class="card">
+                    <p class="card-number">04</p>
+                    <h3>EC2 Linux Server</h3>
+                    <p>
+                        Deployed an Amazon Linux EC2 instance into the
+                        public subnet.
+                    </p>
+                </article>
+
+                <article class="card">
+                    <p class="card-number">05</p>
+                    <h3>Nginx</h3>
+                    <p>
+                        Installed and configured Nginx to serve web
+                        content from the EC2 instance.
+                    </p>
+                </article>
+
+                <article class="card">
+                    <p class="card-number">06</p>
+                    <h3>SSH Administration</h3>
+                    <p>
+                        Connected securely to the Linux server using
+                        SSH key authentication.
+                    </p>
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <section id="security">
+
+            <p class="section-label">03 / SECURITY</p>
+            <h2>Access without opening everything.</h2>
+
+            <div class="security-box">
+
+                <div>
+                    <span>HTTP</span>
+                    <strong>TCP / 80</strong>
+                    <p>Public web traffic</p>
+                </div>
+
+                <div>
+                    <span>SSH</span>
+                    <strong>TCP / 22</strong>
+                    <p>Restricted administrative access</p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section id="lessons">
+
+            <p class="section-label">04 / WHAT I LEARNED</p>
+            <h2>More than launching an EC2 instance.</h2>
+
+            <p class="large-text">
+                This lab helped me understand how VPC addressing,
+                subnetting, route tables, Internet Gateways, security
+                groups, Network ACLs, Linux administration, SSH, and
+                web services work together to make an application
+                reachable from the internet.
+            </p>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Built by Jeremy Dehorty</p>
+        <p>AWS Cloud Infrastructure Lab</p>
+    </footer>
+
+</body>
+</html>

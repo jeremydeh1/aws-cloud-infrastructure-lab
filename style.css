@@ -1,0 +1,715 @@
+/* =========================
+   AWS CLOUD LAB
+   DESIGN SYSTEM
+========================= */
+
+:root {
+    --background: #070809;
+    --background-soft: #0b0d10;
+
+    --surface: #101216;
+    --surface-hover: #15181d;
+    --surface-light: #191c22;
+
+    --border: #272b32;
+    --border-bright: #3a3f48;
+
+    --text: #f4f4f5;
+    --text-secondary: #989da7;
+    --text-dark: #656b75;
+
+    --accent: #ff9900;
+    --accent-light: #ffb84d;
+    --accent-soft: rgba(255, 153, 0, 0.10);
+
+    --success: #3fb950;
+    --success-soft: rgba(63, 185, 80, 0.10);
+}
+
+
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--background);
+    color: var(--text);
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    line-height: 1.6;
+}
+
+a {
+    color: inherit;
+}
+
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+::-webkit-scrollbar {
+    width: 9px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-bright);
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    background: rgba(7, 8, 9, 0.88);
+    backdrop-filter: blur(14px);
+
+    border-bottom: 1px solid var(--border);
+}
+
+.nav-container {
+    width: 100%;
+    max-width: 1200px;
+
+    margin: 0 auto;
+    padding: 19px 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    color: var(--text);
+
+    font-size: 23px;
+    font-weight: 800;
+    letter-spacing: -1px;
+
+    text-decoration: none;
+}
+
+.logo span {
+    color: var(--accent);
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.nav-links a {
+    position: relative;
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+    font-weight: 500;
+
+    text-decoration: none;
+
+    transition: color 0.2s ease;
+}
+
+.nav-links a::after {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    bottom: -7px;
+
+    width: 0;
+    height: 1px;
+
+    background: var(--accent);
+
+    transition: width 0.25s ease;
+}
+
+.nav-links a:hover {
+    color: var(--text);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    position: relative;
+    overflow: hidden;
+
+    min-height: 82vh;
+
+    display: flex;
+    align-items: center;
+
+    background:
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(255, 153, 0, 0.08),
+            transparent 30%
+        ),
+        var(--background);
+
+    border-bottom: 1px solid var(--border);
+}
+
+
+/* subtle infrastructure grid */
+
+.hero::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    background-image:
+        linear-gradient(
+            rgba(255, 255, 255, 0.018) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.018) 1px,
+            transparent 1px
+        );
+
+    background-size: 55px 55px;
+
+    mask-image:
+        linear-gradient(
+            to bottom,
+            black,
+            transparent 85%
+        );
+
+    pointer-events: none;
+}
+
+.hero::after {
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    right: -180px;
+    top: -180px;
+
+    background: rgba(255, 153, 0, 0.08);
+    filter: blur(110px);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+
+    width: 100%;
+    max-width: 1200px;
+
+    margin: 0 auto;
+    padding: 110px 30px;
+}
+
+.eyebrow,
+.section-label {
+    color: var(--accent);
+
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: 2.5px;
+}
+
+.hero h1 {
+    max-width: 1050px;
+
+    margin: 22px 0 30px;
+
+    font-size: clamp(50px, 7vw, 92px);
+    font-weight: 800;
+
+    line-height: 0.96;
+    letter-spacing: -5px;
+}
+
+.hero h1 span {
+    color: var(--accent);
+}
+
+.hero-description {
+    max-width: 700px;
+
+    margin-bottom: 35px;
+
+    color: var(--text-secondary);
+
+    font-size: 19px;
+    line-height: 1.8;
+}
+
+
+/* =========================
+   SERVER STATUS
+========================= */
+
+.status {
+    width: fit-content;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 10px 15px;
+
+    background: var(--success-soft);
+
+    border: 1px solid rgba(63, 185, 80, 0.25);
+    border-radius: 6px;
+
+    color: var(--success);
+
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: 0.5px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+
+    background: var(--success);
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 8px var(--success),
+        0 0 16px rgba(63, 185, 80, 0.4);
+
+    animation: serverPulse 2s infinite;
+}
+
+@keyframes serverPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
+}
+
+
+/* =========================
+   MAIN CONTENT
+========================= */
+
+main {
+    width: 100%;
+    max-width: 1200px;
+
+    margin: 0 auto;
+    padding: 0 30px;
+}
+
+section {
+    padding: 115px 0;
+
+    border-bottom: 1px solid var(--border);
+}
+
+section:last-child {
+    border-bottom: none;
+}
+
+section h2 {
+    max-width: 900px;
+
+    margin-top: 10px;
+    margin-bottom: 45px;
+
+    color: var(--text);
+
+    font-size: clamp(35px, 5vw, 58px);
+    font-weight: 750;
+
+    line-height: 1.05;
+    letter-spacing: -3px;
+}
+
+
+/* =========================
+   ARCHITECTURE FLOW
+========================= */
+
+.traffic-flow {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 12px;
+
+    padding: 32px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+.traffic-flow div {
+    position: relative;
+
+    padding: 14px 18px;
+
+    background: var(--surface-light);
+
+    border: 1px solid var(--border-bright);
+    border-radius: 6px;
+
+    color: var(--text);
+
+    font-family: "Courier New", monospace;
+    font-size: 13px;
+
+    transition:
+        border-color 0.25s ease,
+        transform 0.25s ease,
+        background 0.25s ease;
+}
+
+.traffic-flow div:hover {
+    transform: translateY(-3px);
+
+    background: var(--surface-hover);
+    border-color: var(--accent);
+}
+
+.traffic-flow span {
+    color: var(--accent);
+
+    font-family: monospace;
+    font-size: 22px;
+}
+
+
+/* =========================
+   INFRASTRUCTURE CARDS
+========================= */
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 18px;
+}
+
+.card {
+    position: relative;
+    overflow: hidden;
+
+    min-height: 240px;
+
+    padding: 30px;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--surface),
+            var(--background-soft)
+        );
+
+    border: 1px solid var(--border);
+    border-radius: 12px;
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+/* orange line across card */
+
+.card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 0;
+    height: 2px;
+
+    background: var(--accent);
+
+    transition: width 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+
+    border-color: rgba(255, 153, 0, 0.45);
+
+    box-shadow:
+        0 18px 45px rgba(0, 0, 0, 0.28);
+}
+
+.card:hover::before {
+    width: 100%;
+}
+
+.card-number {
+    color: var(--accent);
+
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+.card h3 {
+    margin: 24px 0 12px;
+
+    color: var(--text);
+
+    font-size: 22px;
+}
+
+.card p:last-child {
+    color: var(--text-secondary);
+
+    font-size: 15px;
+    line-height: 1.75;
+}
+
+
+/* =========================
+   SECURITY
+========================= */
+
+.security-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    overflow: hidden;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+.security-box div {
+    position: relative;
+
+    padding: 42px;
+
+    transition: background 0.2s ease;
+}
+
+.security-box div:hover {
+    background: var(--surface-hover);
+}
+
+.security-box div:first-child {
+    border-right: 1px solid var(--border);
+}
+
+.security-box span {
+    display: block;
+
+    margin-bottom: 10px;
+
+    color: var(--accent);
+
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+.security-box strong {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: var(--text);
+
+    font-family: "Courier New", monospace;
+    font-size: 30px;
+}
+
+.security-box p {
+    color: var(--text-secondary);
+}
+
+
+/* =========================
+   WHAT I LEARNED
+========================= */
+
+.large-text {
+    max-width: 950px;
+
+    color: var(--text-secondary);
+
+    font-size: clamp(20px, 2.5vw, 28px);
+    line-height: 1.7;
+}
+
+
+/* =========================
+   TEXT SELECTION
+========================= */
+
+::selection {
+    background: var(--accent);
+    color: #000;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    width: 100%;
+    max-width: 1200px;
+
+    margin: 0 auto;
+    padding: 40px 30px;
+
+    display: flex;
+    justify-content: space-between;
+
+    border-top: 1px solid var(--border);
+
+    color: var(--text-dark);
+
+    font-family: "Courier New", monospace;
+    font-size: 12px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 900px) {
+
+    .nav-links {
+        display: none;
+    }
+
+    .hero {
+        min-height: 75vh;
+    }
+
+    .hero h1 {
+        letter-spacing: -3px;
+    }
+
+    .card-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .traffic-flow {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .traffic-flow span {
+        margin-left: 20px;
+        transform: rotate(90deg);
+    }
+}
+
+
+@media (max-width: 650px) {
+
+    .nav-container,
+    .hero-content,
+    main,
+    footer {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .hero h1 {
+        font-size: 48px;
+        letter-spacing: -2px;
+    }
+
+    section {
+        padding: 80px 0;
+    }
+
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .security-box {
+        grid-template-columns: 1fr;
+    }
+
+    .security-box div:first-child {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+    }
+
+    footer {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
